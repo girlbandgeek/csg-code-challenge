@@ -8,6 +8,12 @@ resource "aws_instance" "csg-test" {
   instance_type			= "t2.micro"
   vpc_security_group_ids	= [aws_security_group.instance.id]
 
+# Add ssh public key for access
+  user_data = <<-EOF
+              #!/bin/bash
+              echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCjsr1B++pu22BpGNXMwc+7F+Jsscz1/dwS4Mu2fwBTaexRpnHKAbw98LYhUh8xZSp3G0U1kL/UNaj4K0W/0NIM3EnAeR+vuaFmoGHSxu9ob+kn8ZQf8mw0JRM3BFROg/ooObtwDRKrZDtnxZr/itOB220gWjkNxLG7PaWSwlM8c4Y5L758ojWvLub/nE45Wpkg2sQW1lPwfi0gV1YFW1y7VU7z24KjOCzh9LZcLmb29jBwjcHVW7thR9THsHmXdOzvUEH/ynow74+SVXNsLuEcVqQfKAvIlpUvvmLDeEC+QRdDN2Y5UJ+xoUJNXtpzZg4tKxyMrxJv9AC6HO5qxkpd daniel@Daniels-MacBook-Pro.local" >> /home/ubuntu/.ssh/authorized_keys
+              EOF
+
   tags = {
     Name = "csg-test"
   }
