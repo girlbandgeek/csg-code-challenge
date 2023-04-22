@@ -36,3 +36,9 @@ resource "aws_security_group" "instance" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
+
+# Output the public IP address
+output "public_ip" {
+  value	= aws_instance.csg-test.public_ip
+  description = "The public IP of the instance"
+}
