@@ -1,0 +1,12 @@
+---
+- name: install security agent
+  hosts: csg_instances
+  become: true
+  
+  tasks:
+  - name: Create directory /opt/csg_security_agent
+    ansible.builtin.file:
+      path: /opt/csg_security_agent
+      state: directory
+      mode: '0755'
+

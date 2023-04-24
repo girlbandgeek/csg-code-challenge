@@ -1,0 +1,4 @@
+csg_instances:
+  hosts:
+    csg-test:
+      ansible_host: 52.15.166.144
