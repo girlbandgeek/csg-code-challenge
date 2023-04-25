@@ -31,3 +31,8 @@
       path: /opt/csg_security_agent/security_agent_config.conf
       regexp: '<add_unique_token_here>'
       replace: "{{ unique_token }}"
+
+  - name: Execute the install script with arguments
+    ansible.builtin.shell: ./security_agent_installer.sh --config security_agent_config.conf --token "{{ unique_token }}" > install.log
+    args:
+      chdir: /opt/csg_security_agent/
