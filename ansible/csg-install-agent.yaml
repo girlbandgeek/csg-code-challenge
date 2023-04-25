@@ -1,6 +1,10 @@
 ---
 - name: install security agent
   hosts: csg_instances
+  gather_facts: false
+  vars_prompt:
+    - name: unique_token
+      prompt: Enter the unique token
   become: true
   
   tasks:
@@ -10,3 +14,20 @@
       state: directory
       mode: '0755'
 
+  - name: copy the security agent installer and rename it
+    ansible.builtin.copy:
+      src: /home/daniel/cloudops/csg-code-challenge/ansible/assets/security_agent_installer_linux_amd64_v1.0.0.sh
+      dest: /opt/csg_security_agent/security_agent_installer.sh
+      mode: '0755'
+
+  - name: copy the security agent conf file
+    ansible.builtin.copy:
+      src: /home/daniel/cloudops/csg-code-challenge/ansible/assets/security_agent_config.conf
+      dest: /opt/csg_security_agent/security_agent_config.conf
+      mode: '0755'
+
+  - name: Replace placeholder in config file with token
+    ansible.builtin.replace:
+      path: /opt/csg_security_agent/security_agent_config.conf
+      regexp: '<add_unique_token_here>'
+      replace: "{{ unique_token }}"
