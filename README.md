@@ -46,7 +46,7 @@ terraform apply
 
 Once the instance is provisioned, the public IP address is output. Record this for use in the next step.
 
-`public_ip = "3.144.194.246"`
+`public_ip = "52.15.166.144"`
 
 At this point, the instance is provisioned. It may take a minute for its state to change from "pending" to "running". You can verify in the AWS console if desired. Now we're ready to use ansible to complete the configuration.
 
