@@ -10,7 +10,7 @@ the specified parameters. Some of the highlights of the code:
 * A public key is added to the ubuntu user's authorized_keys file to support ssh access
 * The public ip address of the instance is output, to be used in subsequent steps
 * Ansible is used to copy an installation script and config file to the instance, in a specified directory
-* The script requires a unique installation code. This is collected by the ansible script at runtime, as we want to keep sensitive info out of the code repository
+* The install script requires a unique token. This is collected by the ansible script at runtime, as we want to keep sensitive info out of the code repository
 * The config file is modified to include the unique token before executing the install script
 * Finally, the installation script is executed with the required parameters. Output is logged so we can verify the install
 
@@ -22,16 +22,22 @@ the specified parameters. Some of the highlights of the code:
 * CLI access to AWS cloud with sufficient privileges to launch and configure instances. In addition, a VPC and a subnet needs to be configured prior to running this code.
 * Code could be modified to support other cloud providers
 * Instance is provisioned into the default region specified in your AWS config. See AWS docs for details.
-* There are some hard-coded values in the main.tf script. These must be changed before running the code in your environment:
-** ami (Amazon Machine Image). This must correspond to the region and flavor of linux you with to deploy. The example is ubuntu 20.04 for us-east-2 region
-** ssh public key. You will need to generate a key pair, or use an existing key pair appropriate for your environment.
+
+There are some hard-coded values in the main.tf script. These must be changed before running the code in your environment:
+
+* ami (Amazon Machine Image). This must correspond to the region and flavor of linux you with to deploy. The example is ubuntu 20.04 for us-east-2 region
+* ssh public key. You will need to generate a key pair, or use an existing key pair appropriate for your environment.
 
 ## Usage
 Clone the repository to your working directory:
 
 `git clone git@github.com:girlbandgeek/csg-code-challenge.git`
 
-Navigate to the terraform directory and execute the following command to initialize terraform. Execute the following commands to validate the code and launch the instance. Respond "yes" when prompted. (Terraform plan is optional.):
+Navigate to the terraform directory and execute the following command to initialize terraform:
+
+`terraform init`
+
+Execute the following commands to validate the code and launch the instance. Respond "yes" when prompted. (Terraform plan is optional.):
 
 ```
 terraform plan
@@ -48,13 +54,13 @@ Change directory to the ansible directory
 
 `cd ../ansible`
 
-You will need to update the inventory.yaml file with the public ip address of the instance which was output from terraform:
+You will need to update the inventory.yaml file with the public ip address of the instance which was output from terraform. Example:
 
 ```
 csg_instances:
   hosts:
     csg-test:
-      ansible_host: **52.15.166.144**
+      ansible_host: 52.15.166.144
 ```
 
 Verify the ansible can successfully connect to the instance by executing the following command (respond "yes" when prompted about authenticity of host):
